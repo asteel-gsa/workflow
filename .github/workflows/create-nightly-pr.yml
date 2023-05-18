@@ -2,7 +2,7 @@
 name: Create a Pull Request to Staging every night if there has been a merge into main within 24 hours
 on:
     schedule:
-    - cron: "2 16 * * *"
+    - cron: '5 16 * * *'
 
 jobs:
   check_date:
