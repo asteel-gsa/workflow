@@ -1,5 +1,5 @@
 ---
-name: Create a Pull Request to Staging every night if there has been a merge into main within 24 hours
+name: Auto Generated PR
 on:
     # schedule:
     # - cron: '*/5 * * * *'
@@ -8,7 +8,7 @@ on:
 jobs:
   check_date:
     runs-on: ubuntu-latest
-    name: Check latest commit
+    name: Check For a Commit
     outputs:
         should_run: ${{ steps.should_run.outputs.should_run }}
     steps:
@@ -18,7 +18,7 @@ jobs:
 
       - id: should_run
         continue-on-error: true
-        name: check if latest commit is less than a day
+        name: Check if latest commit is less than a day
         if: ${{ github.event_name == 'workflow_dispatch' }}
         #run: test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "::set-output name=should_run::false"
         run: |
@@ -64,17 +64,13 @@ jobs:
           pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
           github-token: ${{ secrets.AUTO_APPROVE_TOKEN }}
 
-  auto-merge:
-    name: Auto Merge the approved PR
-    needs: [auto-approve, pull-request]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.AUTO_APPROVE_TOKEN }}
-          pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
-          merge-method: squash
-      # - name: Enable Pull Request Automerge
-      #   run: gh pr merge --squash --auto "${{ needs.pull-request.outputs.pr_number }}"
-      #   env:
-      #     GH_TOKEN: ${{ secrets.AUTO_APPROVE_TOKEN }}
+  # auto-merge:
+  #   name: Auto Merge The Approved PR
+  #   needs: [auto-approve, pull-request]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: peter-evans/enable-pull-request-automerge@v3
+  #       with:
+  #         token: ${{ secrets.AUTO_APPROVE_TOKEN }}
+  #         pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
+  #         merge-method: squash
