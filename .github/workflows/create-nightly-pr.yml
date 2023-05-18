@@ -17,7 +17,7 @@ jobs:
         run: echo ${{ github.sha }}
 
       - id: should_run
-        continue-on-error: true
+        continue-on-error: false
         name: Check if latest commit is less than a day
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: | 
