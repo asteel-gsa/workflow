@@ -2,8 +2,8 @@
 name: Create a Pull Request to Staging every night if there has been a merge into main within 24 hours
 on:
     schedule:
-    - cron: '5 16 * * *'
-
+    - cron: '7 16 * * *'
+    workflow_dispatch:
 jobs:
   check_date:
     runs-on: ubuntu-latest
