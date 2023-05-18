@@ -5,9 +5,6 @@ on:
     # - cron: '*/5 * * * *'
   workflow_dispatch:
 
-env:
-  date:
-
 jobs:
   check_date:
     runs-on: ubuntu-latest
@@ -23,10 +20,10 @@ jobs:
         continue-on-error: true
         name: check if latest commit is less than a day
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "::set-output name=should_run::false"
-        # run: |
-        #     test -z $(git rev-list  --after="24 hours" ${{ github.sha }})
-        #     echo "should_run=false" >> $GITHUB_OUTPUT
+        #run: test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "::set-output name=should_run::false"
+        run: |
+            test -z $(git rev-list  --after="24 hours" ${{ github.sha }})
+            echo "should_run=false" >> $GITHUB_OUTPUT
 
   pull-request:
     needs: check_date
@@ -35,9 +32,10 @@ jobs:
     outputs:
         pr_number: ${{ steps.open-pr.outputs.pr_number }}
     steps:
-      - name: Get Time
+      - name: Get Date
+        id: date
         run: |
-          echo "{date}={$(date +'%Y-%m-%d')}" >> ${GITHUB_ENV}
+          echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       - uses: actions/checkout@v3
       - name: Open pull request
@@ -46,9 +44,9 @@ jobs:
         with:
           source_branch: "main"
           destination_branch: "test"
-          pr_title: "${{ env.date }} TEST PR"
+          pr_title: "${{ steps.date.outputs.date }} TEST PR"
           pr_body: |
-            This is an auto-generated PR to merge main into prod for a staging release for ${{ env.date }}
+            This is an auto-generated PR to merge main into prod for a staging release for ${{ steps.date.outputs.date }}
           pr_reviewer: "fac-admins"
           pr_allow_empty: false
           github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
