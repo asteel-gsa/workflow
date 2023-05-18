@@ -45,7 +45,7 @@ jobs:
         with:
           source_branch: "main"
           destination_branch: "test"
-          pr_title: "${{ steps.date.outputs.date }} main -> test"
+          pr_title: "${{ steps.date.outputs.date }} main -> test {Auto Merge}"
           pr_body: |
             This is an auto-generated PR to merge main into prod for a staging release for ${{ steps.date.outputs.date }}
           pr_reviewer: "ajsteel"
@@ -64,14 +64,13 @@ jobs:
           pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
           github-token: ${{ secrets.AUTO_APPROVE_TOKEN }}
 
-  # Reference: https://github.com/peter-evans/enable-pull-request-automerge
-  # auto-merge:
-  #   name: Auto Merge The Approved PR
-  #   needs: [auto-approve, pull-request]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: peter-evans/enable-pull-request-automerge@v3
-  #       with:
-  #         token: ${{ secrets.AUTO_APPROVE_TOKEN }}
-  #         pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
-  #         merge-method: squash
+  auto-merge:
+    name: Auto Merge The Approved PR
+    needs: [auto-approve, pull-request]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.AUTO_APPROVE_TOKEN }}
+          pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
+          merge-method: squash
