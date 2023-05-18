@@ -3,7 +3,7 @@ name: Create a Pull Request to Staging every night if there has been a merge int
 on:
     schedule:
     - cron: '7 16 * * *'
-    workflow_dispatch:
+    
 jobs:
   check_date:
     runs-on: ubuntu-latest
