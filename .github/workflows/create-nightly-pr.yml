@@ -69,7 +69,12 @@ jobs:
     needs: [auto-approve, pull-request]
     runs-on: ubuntu-latest
     steps:
-      - name: Enable Pull Request Automerge
-        run: gh pr merge --squash --auto "${{ needs.pull-request.outputs.pr_number }}"
-        env:
-          GH_TOKEN: ${{ secrets.AUTO_APPROVE_TOKEN }}
+      - uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.AUTO_APPROVE_TOKEN }}
+          pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
+          merge-method: squash
+      # - name: Enable Pull Request Automerge
+      #   run: gh pr merge --squash --auto "${{ needs.pull-request.outputs.pr_number }}"
+      #   env:
+      #     GH_TOKEN: ${{ secrets.AUTO_APPROVE_TOKEN }}
