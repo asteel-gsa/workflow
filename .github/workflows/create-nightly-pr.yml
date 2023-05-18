@@ -47,4 +47,4 @@ jobs:
             This is an auto-generated PR to merge main into prod for a staging release for ${{ env.date }}
           pr_reviewer: "fac-admins"
           pr_allow_empty: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
