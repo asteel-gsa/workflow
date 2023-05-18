@@ -50,3 +50,18 @@ jobs:
           pr_reviewer: "ajsteel"
           pr_allow_empty: false
           github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
+
+  auto-approve:
+    needs: pull-request
+    runs-on: ubuntu-latest
+    permissions:
+        pull-requests: write
+    steps:
+      - uses: hmarr/auto-approve-action@v3
+        with:
+          pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
+
+      # - name: Enable Pull Request Automerge
+      #   run: gh pr merge --squash --auto "${{ needs.pull-request.outputs.pr_number }}"
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GH_TOKEN_TEST_TWO }}
