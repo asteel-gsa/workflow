@@ -35,7 +35,7 @@ jobs:
       - name: Get Date
         id: date
         run: |
-          echo "::set-output name=date::$(date +'%Y-%m-%d')"
+          echo "date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v3
       - name: Open pull request
@@ -47,6 +47,6 @@ jobs:
           pr_title: "${{ steps.date.outputs.date }} TEST PR"
           pr_body: |
             This is an auto-generated PR to merge main into prod for a staging release for ${{ steps.date.outputs.date }}
-          pr_reviewer: "asteel-gsa"
+          pr_reviewer: "ajsteel"
           pr_allow_empty: false
           github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
