@@ -26,6 +26,7 @@ jobs:
             echo "should_run=false" >> $GITHUB_OUTPUT
 
   pull-request:
+    name: Create Pull Request
     needs: check_date
     if: ${{ needs.check_date.outputs.should_run != 'false' }}
     runs-on: ubuntu-latest
@@ -52,6 +53,7 @@ jobs:
           github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
 
   auto-approve:
+    name: Auto Approve Created PR
     needs: pull-request
     runs-on: ubuntu-latest
     permissions:
@@ -60,6 +62,7 @@ jobs:
       - uses: hmarr/auto-approve-action@v3
         with:
           pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
+          github-token: ${{ secrets.GH_TOKEN_TEST_TWO }}
 
       # - name: Enable Pull Request Automerge
       #   run: gh pr merge --squash --auto "${{ needs.pull-request.outputs.pr_number }}"
