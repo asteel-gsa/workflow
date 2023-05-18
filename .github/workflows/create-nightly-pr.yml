@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-date:
+  check-commit:
     runs-on: ubuntu-latest
     name: Check For a Commit
     outputs:
@@ -35,8 +35,8 @@ jobs:
 
   pull-request:
     name: Create Pull Request
-    needs: check-date
-    if: ${{ needs.check-date.outputs.should_run != 'false' }}
+    needs: [check-commit]
+    if: ${{ needs.check-commit.outputs.should_run != 'false' }}
     runs-on: ubuntu-latest
     outputs:
         pr_number: ${{ steps.open-pr.outputs.pr_number }}
@@ -62,7 +62,7 @@ jobs:
 
   auto-approve:
     name: Auto Approve Created PR
-    needs: [pull-request, check-date]
+    needs: [pull-request]
     if: ${{ needs.pull-request.outputs.pr_number != null }}
     runs-on: ubuntu-latest
     permissions:
@@ -75,7 +75,7 @@ jobs:
 
   auto-merge:
     name: Auto Merge The Approved PR
-    needs: [auto-approve, pull-request, check-date]
+    needs: [auto-approve, pull-request]
     if: ${{ needs.pull-request.outputs.pr_number != null }}
     runs-on: ubuntu-latest
     steps:
