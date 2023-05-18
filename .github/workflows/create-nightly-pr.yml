@@ -62,7 +62,7 @@ jobs:
       - uses: hmarr/auto-approve-action@v3
         with:
           pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
-          github-token: ${{ secrets.GH_TOKEN_TEST_TWO }}
+          github-token: ${{ secrets.AUTO_APPROVE_TOKEN }}
 
       # - name: Enable Pull Request Automerge
       #   run: gh pr merge --squash --auto "${{ needs.pull-request.outputs.pr_number }}"
