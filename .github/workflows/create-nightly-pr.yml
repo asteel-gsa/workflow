@@ -24,7 +24,6 @@ jobs:
         run: |
             test -z $(git rev-list  --after="24 hours" ${{ github.sha }})
             echo "should_run=false" >> $GITHUB_OUTPUT
-            exit 0
 
   pull-request:
     name: Create Pull Request
