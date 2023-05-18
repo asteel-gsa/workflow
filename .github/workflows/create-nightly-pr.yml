@@ -5,8 +5,6 @@ on:
     # - cron: '*/5 * * * *'
   workflow_dispatch:
 
-env:
-  date: (date +'%Y-%m-%d')
 
 jobs:
   check_date:
@@ -35,6 +33,11 @@ jobs:
     outputs:
         pr_number: ${{ steps.open-pr.outputs.pr_number }}
     steps:
+      - name: Get current date
+        id: date
+        run: |
+          echo "{date}={$(date +'%Y-%m-%d')}" >> $GITHUB_STATE
+
       - uses: actions/checkout@v3
       - name: Open pull request
         uses: repo-sync/pull-request@v2
