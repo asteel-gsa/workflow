@@ -49,7 +49,7 @@ jobs:
       - name: Get Git short Commit
         id: git-short
         run: |
-          echo "short_sha=$(git rev-parse --short=9 ${{ github.sha }})" >> $GITHUB_OUTPUT
+          echo "short_sha=$(git rev-parse --short=9 "$GITHUB_SHA") >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v3
       - name: Open pull request
