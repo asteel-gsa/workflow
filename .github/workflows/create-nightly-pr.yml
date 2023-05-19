@@ -64,7 +64,7 @@ jobs:
             Last commit being merged: ${{ steps.git-short.outputs.short_sha }}
           pr_reviewer: ${{ secrets.GITHUB_TOKEN }}
           pr_allow_empty: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.actor == 'dependabot[bot]' }}
 
   auto-approve:
     name: Auto Approve Created PR
