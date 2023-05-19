@@ -64,7 +64,6 @@ jobs:
             Last commit being merged: ${{ steps.git-short.outputs.short_sha }}
           pr_reviewer: 'ajsteel'
           pr_allow_empty: false
-          github_token: ${{ secrets.SECRET_KEY }}
 
   auto-approve:
     name: Auto Approve Created PR
