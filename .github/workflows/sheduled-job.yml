@@ -2,8 +2,9 @@
 name: Scheduled Run
 on:
     schedule:
-    - cron: '30 4 * * *'
+    - cron: '*/15 * * * *'
 jobs:
   create-pr:
-    name: Auto Create PR at 1230
+    name: Auto Create PR at 1
     uses: ./.github/workflows/auto-create-pr.yml
+    secrets: inherit
