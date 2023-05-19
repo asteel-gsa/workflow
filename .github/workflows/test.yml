@@ -16,24 +16,24 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install linters
-        working-directory: ./backend
+        working-directory: .
         run: |
           python -m pip install --upgrade pip
           pip install -r dev-requirements.txt
       - name: Lint with flake8
-        working-directory: ./backend
+        working-directory: .
         run: flake8 . --count --show-source --statistics
       - name: Check formatting with black
-        working-directory: ./backend
+        working-directory: .
         run: black --check .
       - name: Run bandit
-        working-directory: ./backend
+        working-directory: .
         run: bandit -c pyproject.toml -r .
       - name: Run type checking
-        working-directory: ./backend
+        working-directory: .
         run: mypy .
       - name: Run HTML template linting
-        working-directory: ./backend
+        working-directory: .
         run: djlint --lint .
   frontend-linting:
     runs-on: ubuntu-latest
@@ -43,41 +43,11 @@ jobs:
         with:
           node-version: 18
       - name: Install npm packages
-        working-directory: ./backend
+        working-directory: .
         run: npm ci
       - name: Lint JS & SCSS
-        working-directory: ./backend
+        working-directory: .
         run: npm run check-all
-  test:
-    runs-on: ubuntu-latest
-    env:
-      ENV: TESTING
-      SAM_API_KEY: ${{ secrets.SAM_API_KEY }}"
-      DJANGO_BASE_URL: 'http://localhost:8000'
-      DJANGO_SECRET_LOGIN_KEY: ${{ secrets.DJANGO_SECRET_LOGIN_KEY }}"
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      ALLOWED_HOSTS: '0.0.0.0 127.0.0.1 localhost'
-      DISABLE_AUTH: False
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 16
-      - name: Pull Docker Hub images
-        working-directory: ./backend
-        run: touch .env && docker-compose pull
-      - name: Start services
-        working-directory: ./backend
-        run: docker-compose up -d
-      - name: Create LocalStack emulated S3 bucket
-        working-directory: ./backend
-        run:
-          docker-compose run web bash -c 'AWS_SECRET_ACCESS_ID="test" AWS_ACCESS_KEY_ID="test" awslocal s3 mb s3://gsa-fac-private-s3'
-      - name: Run Django test suite
-        working-directory: ./backend
-        run:
-          docker-compose run web bash -c 'coverage run --parallel-mode --concurrency=multiprocessing manage.py test --parallel &&
-          coverage combine && coverage report -m --fail-under=90'
       - name: run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.8.x

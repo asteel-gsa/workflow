@@ -62,14 +62,13 @@ jobs:
           pr_body: |
             This is an auto-generated PR to merge main into prod for a staging release for ${{ steps.date.outputs.date }}
             Last commit being merged: ${{ steps.git-short.outputs.short_sha }}
-          pr_reviewer: "ajsteel"
+          pr_reviewer: 'ajsteel'
           pr_allow_empty: false
           github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
 
   auto-approve:
     name: Auto Approve Created PR
     needs: [pull-request]
-    if: ${{ needs.pull-request.outputs.pr_number != null }}
     runs-on: ubuntu-latest
     permissions:
         pull-requests: write
@@ -77,7 +76,7 @@ jobs:
       - uses: hmarr/auto-approve-action@v3
         with:
           pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
-          github-token: ${{ secrets.AUTO_APPROVE_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   auto-merge:
     name: Auto Merge The Approved PR
@@ -87,6 +86,6 @@ jobs:
     steps:
       - uses: peter-evans/enable-pull-request-automerge@v3
         with:
-          token: ${{ secrets.AUTO_APPROVE_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
           merge-method: merge
