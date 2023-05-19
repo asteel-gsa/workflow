@@ -93,9 +93,3 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_RETRIES: 50
           MERGE_RETRY_SLEEP: 30000
-    # steps:
-    #   - uses: peter-evans/enable-pull-request-automerge@v3
-    #     with:
-    #       token: ${{ secrets.GITHUB_TOKEN }}
-    #       pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
-    #       merge-method: merge
