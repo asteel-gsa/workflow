@@ -6,6 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  scan-dev-pre-deploy:
+    name: Zap scan of the dev site
+    uses: ./.github/workflows/zap-scan.yml
+    with:
+        url: "https://fac-dev.app.cloud.gov/"
+
   check-commit:
     runs-on: ubuntu-latest
     name: Check For a Commit
@@ -64,7 +70,7 @@ jobs:
             Last commit being merged: ${{ steps.git-short.outputs.short_sha }}
           pr_reviewer: 'ajsteel'
           pr_allow_empty: false
-          github_token: ${{ secrets.AUTO_APPROVE_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
 
   auto-approve:
     name: Auto Approve Created PR

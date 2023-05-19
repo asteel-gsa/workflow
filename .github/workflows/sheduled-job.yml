@@ -1,0 +1,9 @@
+---
+name: Auto Generated PR
+on:
+    schedule:
+    - cron: '30 4 * * *'
+jobs:
+  scan-dev-pre-deploy:
+    name: Zap scan of the dev site
+    uses: ./.github/workflows/auto-create-pr.yml
