@@ -1,5 +1,5 @@
 ---
-name: Auto Generated PR
+name: Scheduled Run
 on:
     schedule:
     - cron: '30 4 * * *'
