@@ -7,12 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  scan-dev-pre-deploy:
-    name: Zap scan of the dev site
-    uses: ./.github/workflows/zap-scan.yml
-    with:
-        url: "https://fac-dev.app.cloud.gov/"
-
   check-commit:
     runs-on: ubuntu-latest
     name: Check For a Commit

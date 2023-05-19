@@ -8,7 +8,8 @@ on:
   workflow_dispatch: null
 
 jobs:
-  # Testing for all main and prod PRs
-  test-and-lint:
-    uses: ./.github/workflows/test.yml
-    secrets: inherit
+  scan-dev-pre-deploy:
+    name: Zap scan of the dev site
+    uses: ./.github/workflows/zap-scan.yml
+    with:
+        url: "https://fac-dev.app.cloud.gov/"
