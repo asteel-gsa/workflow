@@ -50,7 +50,7 @@ jobs:
       - name: Get Git short Commit
         id: git-short
         run: |
-          echo "short_sha=$(git rev-parse --short=9 ${{ github.sha }})" >> $GITHUB_OUTPUT
+          echo "short_sha=$(git rev-parse --short ${{ github.sha }})" >> $GITHUB_OUTPUT
 
       - name: Open pull request
         uses: repo-sync/pull-request@v2
