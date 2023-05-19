@@ -20,7 +20,6 @@ jobs:
       - name: Check if There Has Been A Commit
         id: should_run
         continue-on-error: false
-        if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           sha=$(git rev-list --after="24 hours" ${{ github.sha }})
           if test -z $sha
