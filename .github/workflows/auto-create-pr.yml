@@ -86,8 +86,14 @@ jobs:
     if: ${{ needs.pull-request.outputs.pr_number != null }}
     runs-on: ubuntu-latest
     steps:
-      - uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
-          merge-method: merge
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    # steps:
+    #   - uses: peter-evans/enable-pull-request-automerge@v3
+    #     with:
+    #       token: ${{ secrets.GITHUB_TOKEN }}
+    #       pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
+    #       merge-method: merge
