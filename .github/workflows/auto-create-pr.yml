@@ -92,6 +92,8 @@ jobs:
         uses: "pascalgn/automerge-action@v0.15.6"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_RETRIES: 50
+          MERGE_RETRY_SLEEP: 30000
     # steps:
     #   - uses: peter-evans/enable-pull-request-automerge@v3
     #     with:
