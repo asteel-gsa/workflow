@@ -6,6 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  scan-dev-pre-deploy:
+    name: Zap scan of the dev site
+    uses: ./.github/workflows/zap-scan.yml
+    with:
+        url: "https://fac-dev.app.cloud.gov/"
+
   check-commit:
     runs-on: ubuntu-latest
     name: Check For a Commit
@@ -69,6 +75,7 @@ jobs:
   auto-approve:
     name: Auto Approve Created PR
     needs: [pull-request]
+    if: ${{ needs.pull-request.outputs.pr_number != null }}
     runs-on: ubuntu-latest
     permissions:
         pull-requests: write
