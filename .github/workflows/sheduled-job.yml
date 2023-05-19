@@ -2,7 +2,7 @@
 name: Scheduled Run
 on:
     schedule:
-    - cron: '20 12 * * *'
+    - cron: '*/15 * * * *'
 jobs:
   create-pr:
     name: Auto Create PR at 1
