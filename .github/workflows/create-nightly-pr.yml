@@ -62,9 +62,9 @@ jobs:
           pr_body: |
             This is an auto-generated PR to merge main into prod for a staging release for ${{ steps.date.outputs.date }}
             Last commit being merged: ${{ steps.git-short.outputs.short_sha }}
-          pr_reviewer: ${{ github.actor == 'dependabot[bot]' }}
+          pr_reviewer: 'ajsteel'
           pr_allow_empty: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
 
   auto-approve:
     name: Auto Approve Created PR
@@ -72,7 +72,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
         pull-requests: write
-    if: github.actor == 'dependabot[bot]'
     steps:
       - uses: hmarr/auto-approve-action@v3
         with:
