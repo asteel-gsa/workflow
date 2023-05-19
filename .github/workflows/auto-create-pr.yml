@@ -4,6 +4,10 @@ on:
     # schedule:
     # - cron: '*/5 * * * *'
   workflow_call:
+    inputs:
+      token:
+        required: true
+        type: string
   workflow_dispatch:
 
 jobs:
@@ -65,7 +69,7 @@ jobs:
             Last commit being merged: ${{ steps.git-short.outputs.short_sha }}
           pr_reviewer: 'ajsteel'
           pr_allow_empty: false
-          github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
+          github_token: ${{ inputs.token }}
 
   auto-approve:
     name: Auto Approve Created PR
