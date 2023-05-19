@@ -46,6 +46,11 @@ jobs:
         run: |
           echo "date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
 
+      - name: Get Git short Commit
+        id: git-short
+        run: |
+          echo "short_sha=$(git rev-parse --short=9  HEAD)" >> $GITHUB_OUTPUT
+
       - uses: actions/checkout@v3
       - name: Open pull request
         uses: repo-sync/pull-request@v2
@@ -53,7 +58,7 @@ jobs:
         with:
           source_branch: "main"
           destination_branch: "test"
-          pr_title: "${{ steps.date.outputs.date }} main -> test"
+          pr_title: "${{ steps.date.outputs.date }} main ${{ steps.git-short.outputs.short_sha }} -> test"
           pr_body: |
             This is an auto-generated PR to merge main into prod for a staging release for ${{ steps.date.outputs.date }}
           pr_reviewer: "ajsteel"
@@ -83,4 +88,4 @@ jobs:
         with:
           token: ${{ secrets.AUTO_APPROVE_TOKEN }}
           pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
-          merge-method: squash
+          merge-method: merge
