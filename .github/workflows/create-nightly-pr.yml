@@ -61,6 +61,8 @@ jobs:
           pr_title: "${{ steps.date.outputs.date }} ${{ steps.git-short.outputs.short_sha }} main -> test"
           pr_body: |
             This is an auto-generated PR to merge main into prod for a staging release for ${{ steps.date.outputs.date }}
+            Git Short Hash: ${{ steps.git-short.outputs.short_sha }}
+            Git Full Hash: ${{ github.sha }}
           pr_reviewer: "ajsteel"
           pr_allow_empty: false
           github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
