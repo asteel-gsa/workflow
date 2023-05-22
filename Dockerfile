@@ -14,15 +14,6 @@ RUN \
     apt-get update && \
     apt-get install -yqq apt-transport-https wget gnupg2
 
-COPY requirements.txt /tmp/requirements.txt
-COPY dev-requirements.txt /tmp/dev-requirements.txt
-
-RUN \
-    set -ex && \
-    pip install --upgrade pip && \
-    pip install -r /tmp/requirements.txt && \
-    pip install -r /tmp/dev-requirements.txt && \
-    rm -rf /root/.cache/
 
 RUN \
     apt-get install -yqq groff && \
