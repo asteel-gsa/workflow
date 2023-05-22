@@ -1,2 +1,1 @@
-Testing Squash Merge
-
+Testing more merge functionality
