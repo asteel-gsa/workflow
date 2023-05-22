@@ -90,7 +90,7 @@ jobs:
         name: automerge
         uses: pascalgn/automerge-action@v0.15.6
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_TEST_TWO }}
           MERGE_RETRIES: 50
           MERGE_RETRY_SLEEP: 30000
           MERGE_METHOD: merge
