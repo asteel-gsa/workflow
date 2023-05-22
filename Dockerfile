@@ -6,8 +6,6 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get -y update
 RUN apt-get -y install git
 
-# Adding Testing to Merge
-
 # RUN --mount=type=cache,target=/root/.cache \
 
 WORKDIR ..
