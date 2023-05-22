@@ -65,8 +65,7 @@ jobs:
             Last commit being merged: ${{ steps.git-short.outputs.short_sha }}
           pr_reviewer: 'ajsteel'
           pr_allow_empty: false
-
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN_TEST_TWO }}
 
   auto-approve:
     name: Auto Approve Created PR
@@ -79,7 +78,7 @@ jobs:
       - uses: hmarr/auto-approve-action@v3
         with:
           pull-request-number: ${{ needs.pull-request.outputs.pr_number }}
-          github-token: ${{ secrets.GH_TOKEN_TEST_TWO }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   auto-merge:
     name: Auto Merge The Approved PR
@@ -91,7 +90,7 @@ jobs:
         name: automerge
         uses: pascalgn/automerge-action@v0.15.6
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_TEST_TWO }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_RETRIES: 50
           MERGE_RETRY_SLEEP: 30000
           MERGE_METHOD: merge
