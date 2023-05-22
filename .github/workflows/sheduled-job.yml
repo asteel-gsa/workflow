@@ -6,7 +6,7 @@ on:
 jobs:
 
   create-pr:
-    name: Auto Create PR at 1
+    name: Auto Create PR every 15 minutes
     uses: ./.github/workflows/auto-create-pr.yml
     secrets: inherit
 
