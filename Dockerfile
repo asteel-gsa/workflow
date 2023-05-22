@@ -8,13 +8,6 @@ RUN apt-get -y install git
 
 # RUN --mount=type=cache,target=/root/.cache \
 
-RUN \
-    apt-get install -yqq groff && \
-    apt-get install -yqq zip && \
-    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
-    unzip awscli-bundle.zip && \
-    ./awscli-bundle/install -b /usr/local/bin/aws
-
 COPY package.* /src/
 WORKDIR /src/
 
