@@ -1,5 +1,5 @@
 ---
-name: Auto Generated PR
+name: Auto Generate PR
 on:
     # schedule:
     # - cron: '*/5 * * * *'
