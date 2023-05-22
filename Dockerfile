@@ -14,8 +14,6 @@ RUN \
     apt-get update && \
     apt-get install -yqq apt-transport-https wget gnupg2
 
-COPY requirements.txt /tmp/requirements.txt
-COPY dev-requirements.txt /tmp/dev-requirements.txt
 
 RUN \
     set -ex && \
