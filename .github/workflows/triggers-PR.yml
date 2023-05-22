@@ -3,9 +3,8 @@ name: Tests for PRs
 on:
   pull_request:
     branches:
-      - main
       - test
-  workflow_dispatch: null
+  workflow_dispatch:
 
 jobs:
   scan-dev-pre-deploy:
