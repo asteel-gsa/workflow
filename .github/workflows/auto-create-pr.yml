@@ -93,4 +93,4 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_RETRIES: 50
           MERGE_RETRY_SLEEP: 30000
-          MERGE_METHOD: squash
+          MERGE_METHOD: merge
