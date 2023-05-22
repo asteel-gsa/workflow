@@ -16,13 +16,6 @@ RUN \
 
 
 RUN \
-    set -ex && \
-    pip install --upgrade pip && \
-    pip install -r /tmp/requirements.txt && \
-    pip install -r /tmp/dev-requirements.txt && \
-    rm -rf /root/.cache/
-
-RUN \
     apt-get install -yqq groff && \
     apt-get install -yqq zip && \
     curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
