@@ -6,9 +6,10 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get -y update
 RUN apt-get -y install git
 
-# RUN --mount=type=cache,target=/root/.cache \
-
-WORKDIR ..
+ENV FOO=/bar
+WORKDIR ${FOO}   # WORKDIR /bar
+ADD . $FOO       # ADD . /bar/
+COPY \$FOO /quux # COPY $FOO /quux/
 
 RUN \
     apt-get update && \
@@ -31,13 +32,6 @@ RUN \
     pip install -r /tmp/requirements.txt && \
     pip install -r /tmp/dev-requirements.txt && \
     rm -rf /root/.cache/
-
-RUN \
-    apt-get install -yqq groff && \
-    apt-get install -yqq zip && \
-    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
-    unzip awscli-bundle.zip && \
-    ./awscli-bundle/install -b /usr/local/bin/aws
 
 COPY package.* /src/
 WORKDIR /src/
