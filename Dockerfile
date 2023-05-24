@@ -6,11 +6,6 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get -y update
 RUN apt-get -y install git
 
-ENV FOO=/bar
-WORKDIR ${FOO}   # WORKDIR /bar
-ADD . $FOO       # ADD . /bar/
-COPY \$FOO /quux # COPY $FOO /quux/
-
 RUN \
     apt-get update && \
     apt-get install -yqq apt-transport-https wget gnupg2
