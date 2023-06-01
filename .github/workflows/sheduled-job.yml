@@ -2,7 +2,7 @@
 name: Scheduled Deploy From Main to Test
 on:
     schedule:
-    - cron: '5 4 * * *'
+    - cron: '*/15 * * * *'
 jobs:
   create-pr:
     name: Auto Create PR every 15 minutes
