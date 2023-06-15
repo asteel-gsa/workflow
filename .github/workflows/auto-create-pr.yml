@@ -4,6 +4,9 @@ on:
   workflow_call:
   workflow_dispatch:
 
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   check-commit:
     runs-on: ubuntu-latest
@@ -62,27 +65,33 @@ jobs:
             This is an auto-generated PR to merge main into prod for a staging release for ${{ steps.date.outputs.date }}
             Last commit being merged: ${{ steps.git-short.outputs.short_sha }}
           pr_allow_empty: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ env.GH_TOKEN }}
 
       - name: Comment on PR
         id: comment-pr
         run: |
           gh pr comment ${{ steps.open-pr.outputs.pr_number }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
 
-  close-and-open-pr:
-      name: Close and reopen the pull request
-      needs: [pull-request]
-      runs-on: ubuntu-latest
-      steps:
       - name: Close the Pull Request
         run: |
-          echo "Closing PR ${{ needs.pull-request.outputs.pr_number }}"
-          gh pr close ${{ needs.pull-request.outputs.pr_number }}
+          gh pr close ${{ steps.open-pr.outputs.pr_number }}
 
       - name: Reopen the Pull Request
         run: |
-          echo "Reopening PR ${{ needs.pull-request.outputs.pr_number }}"
-          gh pr reopen ${{ needs.pull-request.outputs.pr_number }}
+          gh pr reopen ${{ steps.open-pr.outputs.pr_number }}
+
+  # close-and-open-pr:
+  #     name: Close and reopen the pull request
+  #     needs: [pull-request]
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #     - name: Close the Pull Request
+  #       run: |
+  #         gh pr close ${{ needs.pull-request.outputs.pr_number }}
+
+  #     - name: Reopen the Pull Request
+  #       run: |
+  #         gh pr reopen ${{ needs.pull-request.outputs.pr_number }}
 
   # auto-approve:
   #   name: Auto Approve Created PR
