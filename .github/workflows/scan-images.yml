@@ -46,7 +46,7 @@
           - name: Check Image Creation Date
             run: |
               last_image_date=`cat ${{ matrix.image.tname }}.txt`
-              image_creation_date=$(date -d "$(docker inspect -f '{{ .Created }}' ${{ matrix.image.name }})" +%s)
+              image_creation_date=$(date -d "$(docker inspect -f '{{ .Created }}' ${{ matrix.image.name }})" +%Y%m%d)
 
               echo $last_image_date
               echo $image_creation_date
