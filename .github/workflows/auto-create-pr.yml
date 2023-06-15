@@ -59,7 +59,7 @@ jobs:
         with:
           token: ${{ env.GH_TOKEN }}
           commit-message: Update report
-          title: '[Example] Update report'
+          title: "${{ steps.date.outputs.date }} ${{ steps.git-short.outputs.short_sha }} main -> test"
           branch: main
           base: test
           body:
