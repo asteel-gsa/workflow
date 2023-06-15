@@ -61,7 +61,7 @@ jobs:
       - name: Comment on PR
         id: comment-pr
         run: |
-          gh pr comment ${{ steps.open-pr.outputs.pr_number }} --body "Close and Re-Open the PR to run PR tests"
+          gh pr comment ${{ steps.open-pr.outputs.pr_number }} --body "Close and Re-Open the PR to run PR tests to ensure that a plan for staging is generated on PR ${{ steps.open-pr.outputs.pr_number }}"
 
 
   # auto-approve:
