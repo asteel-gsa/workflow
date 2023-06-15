@@ -59,7 +59,7 @@
           - name: Tag Image
             run: |
               docker tag ${{ matrix.image.name }} ${{ env.GH_REPO }}/${{ matrix.image.tname }}:latest
-              docker tag ${{ matrix.image.name }} ${{ env.GH_REPO }}/${{ matrix.image.tname }}:${{ steps.image-date.outputs.last_image_date }}
+              docker tag ${{ matrix.image.name }} ${{ env.GH_REPO }}/${{ matrix.image.tname }}:${{ steps.image-date.outputs.image_creation_date }}
 
           - name: Login to GitHub Container Registry
             uses: docker/login-action@v2
