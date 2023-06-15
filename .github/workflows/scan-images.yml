@@ -52,7 +52,7 @@
               last_image_creation_date=${{ steps.image-date.outputs.creation_date }}
               echo "Image Date: $last_image_date"
               echo "Image Created: $last_image_creation_date"
-              if [[ $image_creation_date -eq $last_image_date ]]; then
+              if [[ $last_image_creation_date -eq $last_image_date ]]; then
                 echo "We have the latest version already"
                 exit 1
               fi
