@@ -61,8 +61,17 @@ jobs:
       - name: Comment on PR
         id: comment-pr
         run: |
-          gh pr comment ${{ steps.open-pr.outputs.pr_number }} --body "Close and re-open the pull request to run PR tests and ensure that a plan for staging is generated on the pull request before merging."
+          gh pr comment ${{ steps.open-pr.outputs.pr_number }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
 
+      - name: Close the PR
+        id: close-pr
+        run: |
+          gh pr close ${{ steps.open-pr.outputs.pr_number }}
+
+      - name: Re-Open the PR
+        id: reopen-pr
+        run: |
+          gh pr reopen ${{ steps.open-pr.outputs.pr_number }}
 
   # auto-approve:
   #   name: Auto Approve Created PR
