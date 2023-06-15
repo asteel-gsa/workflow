@@ -4,9 +4,6 @@ on:
   workflow_call:
   workflow_dispatch:
 
-env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   check-commit:
     runs-on: ubuntu-latest
@@ -65,7 +62,7 @@ jobs:
             This is an auto-generated PR to merge main into prod for a staging release for ${{ steps.date.outputs.date }}
             Last commit being merged: ${{ steps.git-short.outputs.short_sha }}
           pr_allow_empty: false
-          github_token: ${{ env.GH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment on PR
         id: comment-pr
@@ -82,7 +79,7 @@ jobs:
           echo "Closing PR ${{ needs.pull-request.outputs.pr_number }}"
           gh pr close ${{ needs.pull-request.outputs.pr_number }}
 
-      - name: Close the Pull Request
+      - name: Reopen the Pull Request
         run: |
           echo "Reopening PR ${{ needs.pull-request.outputs.pr_number }}"
           gh pr reopen ${{ needs.pull-request.outputs.pr_number }}
