@@ -35,7 +35,7 @@
           - name: Initialize version number
             shell: bash
             run: |
-              current_date=$(date +%Y-%m-%d)
+              current_date=$(date +%Y%m%d)
               value=`cat ${{ matrix.image.tname }}.txt || echo $current_date`
               touch  ${{ matrix.image.tname }}.txt
               echo $value > ${{ matrix.image.tname }}.txt
