@@ -63,15 +63,25 @@ jobs:
         run: |
           gh pr comment ${{ steps.open-pr.outputs.pr_number }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
 
-      - name: Close the PR
+  close-pr:
+    name: Close Pull Request
+    needs: [pull-request]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close Pull Request
         id: close-pr
         run: |
-          gh pr close ${{ steps.open-pr.outputs.pr_number }}
+          gh pr close ${{ needs.pull-request.outputs.pr_number }}
 
-      - name: Re-Open the PR
+  reopen-pr:
+    name: Re-Open Pull Request
+    needs: [pull-request]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Re-Open Pull Request
         id: reopen-pr
         run: |
-          gh pr reopen ${{ steps.open-pr.outputs.pr_number }}
+          gh pr reopen ${{ needs.pull-request.outputs.pr_number }}
 
   # auto-approve:
   #   name: Auto Approve Created PR
