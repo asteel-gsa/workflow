@@ -42,9 +42,10 @@
             run: docker pull ${{ matrix.image.name }}
 
           - name: Check Image Creation Date
+            id: image-date
             run: |
               last_image_date=${{ steps.date.outputs.date }}
-              image_creation_date=$(docker inspect -f '{{ .Created }}' ${{ matrix.image.name }} | cut -f1 -d"T" | tr -d -)
+              echo "image_creation_date=$(docker inspect -f '{{ .Created }}' ${{ matrix.image.name }} | cut -f1 -d"T" | tr -d -)" >> $GITHUB_OUTPUT
               echo $last_image_date
               echo $image_creation_date
               if [[ $image_creation_date -eq $last_image_date ]]; then
@@ -57,9 +58,8 @@
 
           - name: Tag Image
             run: |
-              image_creation_date=$(date -d "$(docker inspect -f '{{ .Created }}' ${{ matrix.image.name }})" +%s)
               docker tag ${{ matrix.image.name }} ${{ env.GH_REPO }}/${{ matrix.image.tname }}:latest
-              docker tag ${{ matrix.image.name }} ${{ env.GH_REPO }}/${{ matrix.image.tname }}:$image_creation_date
+              docker tag ${{ matrix.image.name }} ${{ env.GH_REPO }}/${{ matrix.image.tname }}:${{ steps.image-date.outputs.last_image_date }}
 
           - name: Login to GitHub Container Registry
             uses: docker/login-action@v2
