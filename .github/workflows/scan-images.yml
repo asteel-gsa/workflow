@@ -12,7 +12,7 @@
           contents: read
           packages: write
         env:
-          GH_REPO: ghcr.io/gsa-tts/fac
+          GH_REPO: ghcr.io/asteel-gsa/workflow
         strategy:
           fail-fast: false
           matrix:
