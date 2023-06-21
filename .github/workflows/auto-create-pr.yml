@@ -63,7 +63,7 @@ jobs:
       - name: Comment on PR
         id: comment-pr
         run: |
-          gh pr comment ${{ steps.open-pr.outputs.pr_number }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
+          gh pr comment ${{ github.event.pull_request.number }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
 
   close-and-open-pr:
       name: Close and reopen the pull request
@@ -72,11 +72,11 @@ jobs:
       steps:
       - name: Close the Pull Request
         run: |
-          gh pr close ${{ needs.pull-request.outputs.pr_number }}
+          gh pr close ${{ github.event.pull_request.number }}
 
       - name: Reopen the Pull Request
         run: |
-          gh pr reopen ${{ needs.pull-request.outputs.pr_number }}
+          gh pr reopen ${{ github.event.pull_request.number }}
 
   # auto-approve:
   #   name: Auto Approve Created PR
