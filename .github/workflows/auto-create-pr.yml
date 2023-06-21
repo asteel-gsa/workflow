@@ -58,7 +58,7 @@ jobs:
         id: open-pr
         run: |
           gh pr create --title "${{ steps.date.outputs.date }} ${{ steps.git-short.outputs.short_sha }} main -> test" --body "This is an auto-generated PR to merge main into prod for a staging release on ${{ steps.date.outputs.date }} with the last commit being merged as ${{ steps.git-short.outputs.short_sha }}" --base test --head main
-          pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH") >> $GITHUB_OUTPUT
+          pr_number=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }') >> $GITHUB_OUTPUT
 
       - name: Comment on PR
         id: comment-pr
