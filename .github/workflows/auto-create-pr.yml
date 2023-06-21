@@ -6,7 +6,6 @@ on:
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PR_NUMBER: ${{ github.event.number }}
 
 jobs:
   check-commit:
@@ -55,20 +54,23 @@ jobs:
       - name: Open pull request
         id: open-pr
         run: |
-          pr_number=$(gh pr create --title "${{ steps.date.outputs.date }} ${{ steps.git-short.outputs.short_sha }} main -> test" --body "This is an auto-generated PR to merge main into prod for a staging release on ${{ steps.date.outputs.date }} with the last commit being merged as ${{ steps.git-short.outputs.short_sha }}" --base test --head main) >> $GITHUB_OUTPUT
+          gh pr create --title "${{ steps.date.outputs.date }} ${{ steps.git-short.outputs.short_sha }} main -> test" --body "This is an auto-generated PR to merge main into prod for a staging release on ${{ steps.date.outputs.date }} with the last commit being merged as ${{ steps.git-short.outputs.short_sha }}" --base test --head main
+          gh pr comment --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
+          gh pr close
+          gh pr reopen
 
-      - name: Comment on PR
-        id: comment-pr
-        run: |
-          gh pr comment ${{ env.PR_NUMBER }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
+      # - name: Comment on PR
+      #   id: comment-pr
+      #   run: |
+      #     gh pr comment --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
 
-      - name: Close the Pull Request
-        run: |
-          gh pr close ${{ env.PR_NUMBER }}
+      # - name: Close the Pull Request
+      #   run: |
+      #     gh pr close ${{ env.PR_NUMBER }}
 
-      - name: Reopen the Pull Request
-        run: |
-          gh pr reopen ${{ env.PR_NUMBER }}
+      # - name: Reopen the Pull Request
+      #   run: |
+      #     gh pr reopen ${{ env.PR_NUMBER }}
 
   # close-and-open-pr:
   #     name: Close and reopen the pull request
