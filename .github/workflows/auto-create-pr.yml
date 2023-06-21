@@ -6,6 +6,7 @@ on:
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.number }}
 
 jobs:
   check-commit:
@@ -39,8 +40,6 @@ jobs:
     needs: [check-commit]
     if: ${{ needs.check-commit.outputs.should_run != 'false' }}
     runs-on: ubuntu-latest
-    outputs:
-        pr_number: ${{ steps.open-pr.outputs.pr_number }}
     steps:
       - uses: actions/checkout@v3
       - name: Get Date
@@ -61,15 +60,15 @@ jobs:
       - name: Comment on PR
         id: comment-pr
         run: |
-          gh pr comment ${{ steps.open-pr.outputs.pr_number }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
+          gh pr comment ${{ env.PR_NUMBER }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
 
       - name: Close the Pull Request
         run: |
-          gh pr close ${{ steps.open-pr.outputs.pr_number }}
+          gh pr close ${{ env.PR_NUMBER }}
 
       - name: Reopen the Pull Request
         run: |
-          gh pr reopen ${{ steps.open-pr.outputs.pr_number }}
+          gh pr reopen ${{ env.PR_NUMBER }}
 
   # close-and-open-pr:
   #     name: Close and reopen the pull request
