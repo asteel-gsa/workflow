@@ -6,6 +6,7 @@ on:
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.number }}
 
 jobs:
   check-commit:
@@ -39,6 +40,8 @@ jobs:
     needs: [check-commit]
     if: ${{ needs.check-commit.outputs.should_run != 'false' }}
     runs-on: ubuntu-latest
+    outputs:
+        pr_number: ${{ steps.open-pr.outputs.pr_number }}
     steps:
       - uses: actions/checkout@v3
       - name: Get Date
@@ -55,22 +58,20 @@ jobs:
         id: open-pr
         run: |
           gh pr create --title "${{ steps.date.outputs.date }} ${{ steps.git-short.outputs.short_sha }} main -> test" --body "This is an auto-generated PR to merge main into prod for a staging release on ${{ steps.date.outputs.date }} with the last commit being merged as ${{ steps.git-short.outputs.short_sha }}" --base test --head main
-          gh pr comment --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
-          gh pr close
-          gh pr reopen
+          pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH") >> $GITHUB_OUTPUT
 
-      # - name: Comment on PR
-      #   id: comment-pr
-      #   run: |
-      #     gh pr comment --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
+      - name: Comment on PR
+        id: comment-pr
+        run: |
+          gh pr comment ${{ steps.open-pr.outputs.pr_number }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
 
-      # - name: Close the Pull Request
-      #   run: |
-      #     gh pr close ${{ env.PR_NUMBER }}
+      - name: Close the Pull Request
+        run: |
+          gh pr close ${{ steps.open-pr.outputs.pr_number }}
 
-      # - name: Reopen the Pull Request
-      #   run: |
-      #     gh pr reopen ${{ env.PR_NUMBER }}
+      - name: Reopen the Pull Request
+        run: |
+          gh pr reopen ${{ steps.open-pr.outputs.pr_number }}
 
   # close-and-open-pr:
   #     name: Close and reopen the pull request
