@@ -6,7 +6,7 @@ on:
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PR_NUMBER: ${{ github.event.number }}
+  PR_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   check-commit:
@@ -63,7 +63,7 @@ jobs:
       - name: Comment on PR
         id: comment-pr
         run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
+          gh pr comment ${{ env.PR_NUMBER }} --body "This PR will be closed and re-opened to ensure that a terraform plan is generated on the PR for the staging deployment after merging."
 
   close-and-open-pr:
       name: Close and reopen the pull request
@@ -72,11 +72,11 @@ jobs:
       steps:
       - name: Close the Pull Request
         run: |
-          gh pr close ${{ github.event.pull_request.number }}
+          gh pr close ${{ env.PR_NUMBER }}
 
       - name: Reopen the Pull Request
         run: |
-          gh pr reopen ${{ github.event.pull_request.number }}
+          gh pr reopen ${{ env.PR_NUMBER }}
 
   # auto-approve:
   #   name: Auto Approve Created PR
