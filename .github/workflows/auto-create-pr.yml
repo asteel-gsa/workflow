@@ -1,43 +1,40 @@
 ---
 name: Auto Generate PR
 on:
-  workflow_call:
   workflow_dispatch:
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  check-commit:
-    runs-on: ubuntu-latest
-    name: Check For a Commit
-    outputs:
-        should_run: ${{ steps.should_run.outputs.should_run }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: print latest commit
-        run: echo ${{ github.sha }}
+  # check-commit:
+  #   runs-on: ubuntu-latest
+  #   name: Check For a Commit
+  #   outputs:
+  #       should_run: ${{ steps.should_run.outputs.should_run }}
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: print latest commit
+  #       run: echo ${{ github.sha }}
 
-      - name: Check if There Has Been A Commit
-        id: should_run
-        continue-on-error: false
-        run: |
-          sha=$(git rev-list --after="24 hours" ${{ github.sha }})
-          if test -z $sha
-          then
-            echo "should_run=false" >> $GITHUB_OUTPUT
-          else
-            echo "should_run=true" >> $GITHUB_OUTPUT
-          fi
-        #run: test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "::set-output name=should_run::false"
-        # run: |
-        #     test -z $(git rev-list  --after="24 hours" ${{ github.sha }})
-        #     echo "should_run=false" >> $GITHUB_OUTPUT
+  #     - name: Check if There Has Been A Commit
+  #       id: should_run
+  #       continue-on-error: false
+  #       run: |
+  #         sha=$(git rev-list --after="24 hours" ${{ github.sha }})
+  #         if test -z $sha
+  #         then
+  #           echo "should_run=false" >> $GITHUB_OUTPUT
+  #         else
+  #           echo "should_run=true" >> $GITHUB_OUTPUT
+  #         fi
+  #       #run: test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "::set-output name=should_run::false"
+  #       # run: |
+  #       #     test -z $(git rev-list  --after="24 hours" ${{ github.sha }})
+  #       #     echo "should_run=false" >> $GITHUB_OUTPUT
 
   pull-request:
     name: Create Pull Request
-    needs: [check-commit]
-    if: ${{ needs.check-commit.outputs.should_run }} != false
     runs-on: ubuntu-latest
     outputs:
         pr_number: ${{ steps.pr.outputs.pull_request_number }}
