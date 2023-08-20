@@ -43,7 +43,7 @@ jobs:
 
   job4:
     runs-on: ubuntu-latest
-    if: ${{ inputs.y == 1 }} && ${{ always() }}
+    if: ${{ github.base_ref == 'prod' && always() }}
     needs: [job1, job2, job3]
     steps:
       - name: Job 4
