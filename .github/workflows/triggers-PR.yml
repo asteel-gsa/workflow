@@ -11,7 +11,7 @@ on:
         default: 2
       y:
         type: number
-        default: 2
+        default: 1
   workflow_call:
 
 env:
