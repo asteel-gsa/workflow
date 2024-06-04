@@ -1,8 +1,5 @@
 name: Backup Environments
 on:
-  schedule:
-    # Invoke every 2 hours
-    - cron: '0 5 * * *'
   workflow_dispatch:
 
 jobs:
