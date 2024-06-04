@@ -4,7 +4,6 @@ on:
 
 jobs:
   backup-environment:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -12,8 +11,8 @@ jobs:
           - name: dev
           - name: staging
           - name: production
-    steps:
-      - name: output
-        run: |
-            echo "Environment is ${{ matrix.environment.name }}"
+    uses: ./.github/workflows/test-file.yml
+    secrets: inherit
+    with:
+      environment: ${{ matrix.environment.name }}
 
