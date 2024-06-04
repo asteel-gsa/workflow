@@ -1,0 +1,22 @@
+name: Backup Environments
+on:
+  schedule:
+    # Invoke every 2 hours
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  backup-environment:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        environment:
+          - name: dev
+          - name: staging
+          - name: production
+    steps:
+      - name: output
+        run: |
+            echo "Environment is ${{ matrix.environment.name }}"
+
