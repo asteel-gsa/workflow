@@ -1,0 +1,18 @@
+---
+name: Consume Matrix Input
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  consume-matrix:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Echo Matrix
+          run: |
+            echo "Matrix input of environment: ${{ inputs.environment }}"
+

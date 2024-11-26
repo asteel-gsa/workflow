@@ -5,11 +5,47 @@ on:
     branches:
       - test
   workflow_dispatch:
+    inputs:
+      x:
+        type: number
+        default: 2
+      y:
+        type: number
+        default: 1
   workflow_call:
 
+env:
+  x: 1
 jobs:
-  scan-dev-pre-deploy:
-    name: Zap scan of the dev site
-    uses: ./.github/workflows/zap-scan.yml
-    with:
-        url: "https://fac-dev.app.cloud.gov/"
+  # scan-dev-pre-deploy:
+  #   name: Zap scan of the dev site
+  #   uses: ./.github/workflows/zap-scan.yml
+  #   with:
+  #       url: "https://fac-dev.app.cloud.gov/"
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job 1
+        run: echo "Job 1"
+
+  job2:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.x == 1 }}
+    steps:
+      - name: Job 2
+        run: echo "Job 2"
+
+  job3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job 3
+        run: echo "Job 3"
+
+  job4:
+    runs-on: ubuntu-latest
+    if: ${{ github.base_ref == 'test' && always() }}
+    needs: [job1, job2, job3]
+    steps:
+      - name: Job 4
+        run: echo "Job 4"
+
